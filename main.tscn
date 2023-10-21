@@ -1,4 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://drrpypoxmbf"]
+[gd_scene load_steps=6 format=3 uid="uid://drrpypoxmbf"]
+
+[ext_resource type="Script" path="res://scripts/fsm/control/StateMachine.cs" id="1_se43c"]
+[ext_resource type="Script" path="res://scripts/motion/control/Mover.cs" id="2_qyx74"]
+[ext_resource type="Script" path="res://scripts/appearance/control/AppearanceChanger.cs" id="3_h12pq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_cm7nu"]
 
@@ -22,3 +26,20 @@ mesh = SubResource("CapsuleMesh_cm7nu")
 [node name="CapsuleCollider" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_fxki7")
+
+[node name="StateMachine" type="Node" parent="Player" node_paths=PackedStringArray("_systems")]
+script = ExtResource("1_se43c")
+_systems = NodePath("../Systems")
+
+[node name="Systems" type="Node" parent="Player"]
+
+[node name="Mover" type="Node" parent="Player/Systems" node_paths=PackedStringArray("rigidbody")]
+script = ExtResource("2_qyx74")
+rigidbody = NodePath("../..")
+
+[node name="AppearanceChanger" type="Node" parent="Player/Systems" node_paths=PackedStringArray("_visuals")]
+script = ExtResource("3_h12pq")
+_visuals = NodePath("../../Visuals")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.85606, 0.0561362, 0.51382, -0.516877, 0.0929737, 0.850996, 0, -0.994085, 0.108607, 0, 0, 0)
